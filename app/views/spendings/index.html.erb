@@ -1,0 +1,30 @@
+<h1>Spendings</h1>
+
+<table class="table table-hover">
+  <thead class="thead-dark">
+  <tr>
+    <th>Description</th>
+    <th>Amount</th>
+    <th>Category</th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @spendings.each do |spending| %>
+    <tr>
+      <td><%= link_to spending.description, spending_path(spending) %></td>
+      <td><%= spending.amount %></td>
+      <td><%= spending.category %></td>
+      <td><%= link_to "Edit", edit_spending_path(spending), class: 'btn btn-primary' %></td>
+      <td><%= button_to 'Remove', spending, method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "btn btn-danger" %></td>
+    </tr>
+  <% end %>
+  </tbody>
+
+</table>
+
+<p>
+  <%= link_to "Create New To-Do Item", new_spending_path, class: 'btn btn-primary' %>
+</p>

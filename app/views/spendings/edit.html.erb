@@ -1,6 +1,6 @@
-<h1>Create New Spending</h1>
+<h1>Edit Spending</h1>
 
-<%= form_with model: @spending, url: spendings_path, method: :post, local: true do |f| %>
+<%= form_with model: @spending, url: spending_path(@spending), method: :patch, local: true do |f| %>
   <%= f.text_field :description %>
   <%= f.number_field :amount %>
   <%= f.select :category, Spending::CATEGORIES %>
