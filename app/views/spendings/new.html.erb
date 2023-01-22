@@ -1,0 +1,21 @@
+<%= form_with(url: spendings_path, method: :post) do |f| %>
+
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_field :description, autofocus: true, autocomplete: "description" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :amount %><br />
+    <%= f.text_field :amount, autofocus: true, autocomplete: "amount" %>
+  </div>
+
+    <div class="field">
+      <%= f.label :category %><br />
+  <%= select_tag "category", options_from_collection_for_select(Category.all, "id", "title") %>
+    </div>
+
+  <div class="actions">
+    <%= f.submit "Create" %>
+  </div>
+<% end %>
