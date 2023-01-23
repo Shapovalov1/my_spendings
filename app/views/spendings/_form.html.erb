@@ -1,0 +1,7 @@
+<%= form_with model: @spending, local: true do |f| %>
+  <%= f.text_field :description %>
+  <%= f.number_field :amount %>
+  <%= f.select :category, Spending::CATEGORIES %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <%= f.submit %>
+<% end %>

@@ -1,9 +1,3 @@
 <h1>Create New Spending</h1>
 
-<%= form_with model: @spending, url: spendings_path, method: :post, local: true do |f| %>
-  <%= f.text_field :description %>
-  <%= f.number_field :amount %>
-  <%= f.select :category, Spending::CATEGORIES %>
-  <%= f.hidden_field :user_id, value: current_user.id %>
-  <%= f.submit %>
-<% end %>
+<%= render "form" %>
