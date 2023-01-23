@@ -17,6 +17,11 @@
         <%= msg %>
       </div>
     <% end %>
+    <% if user_signed_in? %>
+      <div class="d-flex justify-content-end">
+        <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
+      </div>
+    <% end %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
     <%= yield %>

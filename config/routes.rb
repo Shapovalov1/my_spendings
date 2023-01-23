@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "spendings#new"
+  root "users#sign_in"
 
   devise_for :users
 
