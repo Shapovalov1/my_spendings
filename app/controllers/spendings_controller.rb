@@ -3,6 +3,9 @@ class SpendingsController < ApplicationController
 
   def index
     @spendings = Spending.all
+    @spendings = filter_spendings
+    min_spending_amount!
+    max_spending_amount!
     render :index
   end
 
@@ -51,5 +54,23 @@ class SpendingsController < ApplicationController
 
   def find_spending
     @spending = Spending.find(params[:id])
+  end
+
+  def min_spending_amount!
+    return if params[:min_amount].blank?
+
+    @spendings = @spendings.where('amount >= ?', params.require(:min_amount))
+  end
+
+  def max_spending_amount!
+    return if params[:max_amount].blank?
+
+    @spendings = @spendings.where('amount < ?', params.require(:max_amount))
+  end
+
+  def filter_spendings
+    return Spending.all if params[:categories].blank?
+
+    Spending.where(category: params[:categories])
   end
 end
