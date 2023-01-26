@@ -1,42 +1,47 @@
 <h1>Spendings</h1>
-<%= form_tag spendings_path, method: :get do %>
+<%= form_tag user_spendings_path, method: :get do %>
   <%= select_tag :categories, options_for_select(Spending::CATEGORIES,
                                                  params[:categories]),
                                                  include_blank: "all",
                                                  data: { placeholder: 'categories'}%>
   <%= label :min_amount, "Amount from:" %>
-  <%= text_field_tag :min_amount %>
+  <%= number_field_tag :min_amount, params[:min_amount] %>
+
   <%= label :max_amount, "Amount to:" %>
-  <%= text_field_tag :max_amount %>
+  <%= number_field_tag :max_amount, params[:max_amount] %>
+
   <%= submit_tag "Search" %>
 <% end %>
+<%= link_to 'Reset filters', user_spendings_path %>
+<%= link_to 'Shared spendings', user_shared_spendings_path %>
 <table class="table table-hover">
   <thead class="thead-dark">
-  <tr>
-    <th>Description</th>
-    <th>Amount</th>
-    <th>Category</th>
-    <th></th>
-    <th></th>
-  </tr>
+    <tr>
+      <th>Description</th>
+      <th>Amount</th>
+      <th>Category</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
   </thead>
 
   <tbody>
-  <% @spendings.each do |spending| %>
-    <tr>
-      <td><%= spending.description %></td>
-      <td><%= spending.amount %></td>
-      <td><%= spending.category %></td>
-      <td><%= link_to "Edit", edit_spending_path(spending), class: 'btn btn-primary' %></td>
-      <td><%= button_to 'Remove', spending, method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "btn btn-danger" %></td>
-    </tr>
-  <% end %>
-  <td>Total value</td>
-  <td><%= @spendings.all.pluck(:amount).sum %></td>
+    <% @spendings.each do |spending| %>
+      <tr>
+        <td><%= spending.description %></td>
+        <td><%= spending.amount %></td>
+        <td><%= spending.category %></td>
+        <td><%= link_to "Edit", edit_user_spending_path(spending.user.id, spending.id), class: 'btn btn-primary' %></td>
+        <td><%= button_to 'Remove', user_spending_path(spending.user.id, spending.id), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "btn btn-danger" %></td>
+        <td><%= link_to "Share spending", user_spending_shared_users_path(spending.user.id, spending.id), class: 'btn btn-primary' %></td>
+      </tr>
+    <% end %>
+    <td>Total value</td>
+    <td><%= @spendings.sum(:amount) %></td>
   </tbody>
-
 </table>
 
 <p>
-  <%= link_to "Create New To-Do Item", new_spending_path, class: 'btn btn-primary' %>
+  <%= link_to "Create New Spending", new_user_spending_path, class: 'btn btn-primary' %>
 </p>

@@ -1,8 +1,15 @@
-<%= form_with model: @spending, local: true do |f| %>
+<%= form_with model: @user_spending, url: url, local: true do |f| %>
+  <%= label :description, "Description:" %>
   <%= f.text_field :description %>
+
+  <%= label :description, "Amount:" %>
   <%= f.number_field :amount %>
+
+  <%= label :description, "Category:" %>
   <%= f.select :category, Spending::CATEGORIES %>
+
   <%= f.hidden_field :user_id, value: current_user.id %>
+
   <%= f.submit %>
 <% end %>
-<%= link_to "Back", :back %>
+<%= link_to "Back", user_spendings_url %>

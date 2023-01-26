@@ -3,10 +3,10 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  get 'spendings', to: 'spendings#index', as: 'spendings'
-  post 'spendings', to: 'spendings#create'
-  get 'spendings/:id/edit', to: 'spendings#edit', as: 'edit_spending'
-  patch 'spendings/:id', to: 'spendings#update'
-  delete 'spendings/:id', to: 'spendings#destroy'
-  resources :spendings
+  resources :users do
+    resources :spendings do
+      resources :shared_users
+    end
+    resources :shared_spendings, only: [:index]
+  end
 end

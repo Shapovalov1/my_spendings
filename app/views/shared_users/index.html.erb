@@ -1,0 +1,29 @@
+<h1>Shared users</h1>
+<table class="table table-hover">
+  <thead class="thead-dark">
+    <tr>
+      <th>Email</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @shared_users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= button_to 'Remove', user_spending_shared_user_path(params[:user_id], params[:spending_id], user.id), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } }, class: "btn btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>
+<%= form_tag user_spending_shared_users_path, method: :post do %>
+  <%= select_tag :shared_user, options_from_collection_for_select(current_user.users_to_share(params[:spending_id]),
+                                                           'id',
+                                                           'email',
+                                                           params[:shared_user]),
+                                                           include_blank: "all",
+                                                           data: { placeholder: 'users'} %>
+  <%= submit_tag "Share" %>
+<% end %>
+<%= link_to "Back", user_spendings_path %>
