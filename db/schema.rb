@@ -11,19 +11,22 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_01_23_202643) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "spendings", force: :cascade do |t|
     t.string "description"
     t.decimal "amount", precision: 8, scale: 2
     t.string "category"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_spendings_on_user_id"
   end
 
-  create_table "shared_spendings", force: :cascade do |t|
+  create_table "spendings_users", force: :cascade do |t|
     t.bigint "origin_user_id"
-    t.integer "spending_id"
+    t.bigint "spending_id"
     t.bigint "shared_user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

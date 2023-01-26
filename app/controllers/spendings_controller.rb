@@ -2,10 +2,12 @@ class SpendingsController < ApplicationController
   before_action :find_spending, only: %i[edit update destroy]
 
   def index
-    @spendings = current_user.spendings
-    @spendings = filter_spendings
-    min_spending_amount!
-    max_spending_amount!
+    @spendings = Spendings::Filter.new(
+      min_amount: params[:min_amount],
+      max_amount: params[:max_amount],
+      category: params[:categories],
+      user: current_user
+    ).call
     render :index
   end
 
@@ -54,23 +56,5 @@ class SpendingsController < ApplicationController
 
   def find_spending
     @user_spending = Spending.find(params[:id])
-  end
-
-  def min_spending_amount!
-    return if params[:min_amount].blank?
-
-    @spendings = @spendings.where('amount >= ?', params.require(:min_amount))
-  end
-
-  def max_spending_amount!
-    return if params[:max_amount].blank?
-
-    @spendings = @spendings.where('amount < ?', params.require(:max_amount))
-  end
-
-  def filter_spendings
-    return @spendings if params[:categories].blank?
-
-    @spendings.where(category: params[:categories])
   end
 end
