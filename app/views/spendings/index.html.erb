@@ -1,5 +1,6 @@
 <h1>Spendings</h1>
-<%= form_tag user_spendings_path, method: :get do %>
+<%= form_tag user_spendings_path(current_user), method: :get do %>
+  <%= label :categories, "Category:" %>
   <%= select_tag :categories, options_for_select(Spending::CATEGORIES,
                                                  params[:categories]),
                                                  include_blank: "all",
@@ -12,8 +13,8 @@
 
   <%= submit_tag "Search" %>
 <% end %>
-<%= link_to 'Reset filters', user_spendings_path %>
-<%= link_to 'Shared spendings', user_shared_spendings_path %>
+<%= link_to 'Reset filters', user_spendings_path(current_user) %>
+<%= link_to 'Shared spendings', user_shared_spendings_path(current_user) %>
 <table class="table table-hover">
   <thead class="thead-dark">
     <tr>
@@ -43,5 +44,5 @@
 </table>
 
 <p>
-  <%= link_to "Create New Spending", new_user_spending_path, class: 'btn btn-primary' %>
+  <%= link_to "Create New Spending", new_user_spending_path(current_user), class: 'btn btn-primary' %>
 </p>

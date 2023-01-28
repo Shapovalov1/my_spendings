@@ -1,11 +1,13 @@
 <h1>Shared spendings</h1>
 <%= form_tag user_shared_spendings_path, method: :get do %>
+  <%= label :shared_user_id, "Shared user:" %>
   <%= select_tag :shared_user_id, options_from_collection_for_select(current_user.shared_users.distinct,
                                                               'id',
                                                               'email',
                                                               params[:shared_user_id]),
                                                               include_blank: "all",
                                                               data: { placeholder: 'user'}%>
+  <%= label :categories, "Category:" %>
   <%= select_tag :categories, options_for_select(Spending::CATEGORIES,
                                                  params[:categories]),
                                                  include_blank: "all",
